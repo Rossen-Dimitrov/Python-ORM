@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'orm_skeleton.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'my-site-database',
+        'USER': 'postgres',
+        'PASSWORD': '!QAZxsw2',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
