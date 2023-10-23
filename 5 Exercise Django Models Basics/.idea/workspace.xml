@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06014596-3378-42ab-8c56-3a59d748b658" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/main_app/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/5 Exercise Django Models Basics.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/5 Exercise Django Models Basics.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_app/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_app/apps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orm_skeleton/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/orm_skeleton/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +82,7 @@
       <option name="presentableId" value="Default" />
       <updated>1698043936968</updated>
       <workItem from="1698043937922" duration="2372000" />
-      <workItem from="1698049278441" duration="1510000" />
+      <workItem from="1698049278441" duration="2128000" />
     </task>
     <servers />
   </component>
