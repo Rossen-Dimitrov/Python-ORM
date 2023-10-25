@@ -8,3 +8,5 @@ django.setup()
 # Import your models here
 
 # Create queries within functions
+from main_app.models import Person
+print(Person.objects.values_list('age', flat=True))
