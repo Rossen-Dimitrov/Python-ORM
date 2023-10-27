@@ -61,5 +61,25 @@ def get_students_info():
     return '\n'.join(students_list)
 
 
-print(get_students_info())
+# print(get_students_info())
+def update_students_emails():
+    for student in Student.objects.all():
+        new_email = student.email.replace(
+            'university.com',
+            'uni-students.com')
+        student.email = new_email
+        student.save()
 
+
+# update_students_emails()
+for student in Student.objects.all():
+    print(student.email)
+
+
+def truncate_students():
+    Student.objects.all().delete()
+
+
+truncate_students()
+print(Student.objects.all())
+print(f"Number of students: {Student.objects.count()}")
