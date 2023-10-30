@@ -10,7 +10,9 @@ from main_app.models import Pet
 
 
 def create_pet(name: str, species: str):
-    Pet.objects.create(name=name, species=species)
+    Pet.objects.create(
+        name=name,
+        species=species)
 
     return f"{name} is a very cute {species}!"
 
