@@ -8,7 +8,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "orm_skeleton.settings")
 django.setup()
 
 # Import your models here
-from main_app.models import Pet, Artifact, Location, Car, Task
+from main_app.models import Pet, Artifact, Location, Car, Task, HotelRoom
 
 
 def create_pet(name: str, species: str):
@@ -148,10 +148,72 @@ def encode_and_replace(text: str, task_title: str):
     #     task.description = decoded_text
     #     task.save()
 
-encode_and_replace("Zdvk#wkh#glvkhv$", "Sample Task")
 
 # task = Task.objects.create(
 #     title='Sample Task',
 #     description='This is a sample task description',
 #     due_date='2023-10-31',
 #     is_finished=False,
+# )
+
+# encode_and_replace("Zdvk#wkh#glvkhv$", "Sample Task")
+
+def get_deluxe_rooms():
+    deluxe_rooms = HotelRoom.objects.filter(room_type='Deluxe')
+    rooms_list = []
+    for room in deluxe_rooms:
+        if room.id % 2 == 0:
+            rooms_list.append(str(room))
+
+    return ''.join(rooms_list)
+
+
+def increase_room_capacity():
+    all_rooms = HotelRoom.objects.all().order_by('id')
+    previous_room_capacity = None
+    for room in all_rooms:
+        if not room.is_reserved:
+            continue
+        if not previous_room_capacity:
+            room.capacity += room.id
+        else:
+            room.capacity += previous_room_capacity
+
+        previous_room_capacity = room.capacity
+        room.save()
+
+
+def reserve_first_room():
+    first_room = HotelRoom.objects.first()
+    first_room.is_reserved = True
+    first_room.save()
+
+
+def delete_last_room():
+    last_room = HotelRoom.objects.last()
+    if last_room.is_reserved:
+        last_room.delete()
+
+
+
+# task = HotelRoom.objects.create(
+#     room_number=101,
+#     room_type='Standard',
+#     capacity=2,
+#     amenities='Tv',
+#     price_per_night=100.00,
+# )
+# task1 = HotelRoom.objects.create(
+#     room_number=201,
+#     room_type='Deluxe',
+#     capacity=3,
+#     amenities='Wi-Fi',
+#     price_per_night=200.00,
+# )
+# task2 = HotelRoom.objects.create(
+#     room_number=501,
+#     room_type='Deluxe',
+#     capacity=6,
+#     amenities='Jacuzzi',
+#     price_per_night=400.00,
+# )
