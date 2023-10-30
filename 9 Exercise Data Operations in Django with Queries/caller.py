@@ -136,14 +136,22 @@ def complete_odd_tasks():
             task.is_finished = True
             task.save()
 
+
 # complete_odd_tasks()
 
 def encode_and_replace(text: str, task_title: str):
-    matching_tasks = Task.objects.filter
+    decoded_text = ''.join(chr(ord(x) - 3) for x in text)
+    Task.objects.filter(title=task_title).update(description=decoded_text)
+    # matching_tasks = Task.objects.filter(title=task_title)
+    # decoded_text = ''.join(chr(ord(x) - 3) for x in text)
+    # for task in matching_tasks:
+    #     task.description = decoded_text
+    #     task.save()
+
+encode_and_replace("Zdvk#wkh#glvkhv$", "Sample Task")
 
 # task = Task.objects.create(
 #     title='Sample Task',
 #     description='This is a sample task description',
 #     due_date='2023-10-31',
 #     is_finished=False,
-)
