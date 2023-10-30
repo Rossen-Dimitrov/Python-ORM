@@ -54,13 +54,40 @@ def delete_all_artifacts():
 #     'An ancient tablet covered in mysterious inscriptions',False))
 
 def show_all_locations():
-    locations = Location.objects.all().order_by(id)
-    for location in locations:
-        return f"{location.name} has a population of {location.population}!"
+    locations = Location.objects.all().order_by('-id')
+
+    return '\n'.join(str(x) for x in locations)
 
 
 def new_capital():
-    capital = Location.objects.first()
-    capital.is_capital = True
-    capital.save()
-    
+    Location.objects.filter(pk=1).update(is_capital=True)
+    # capital = Location.objects.first()
+    # capital.is_capital = True
+    # capital.save()
+
+
+def get_capitals():
+    return Location.objects.filter(is_capital=True).values('name')
+
+
+def delete_first_location():
+    Location.objects.first().delete()
+
+# location = Location.objects.create(
+#     name='Sofia', region='Sofia Region', population=1329000,
+#     description='The capital of Bulgaria and the largest city in the country', is_capital=False
+# )
+#
+# location1 = Location.objects.create(
+#     name='Plovdiv', region='Plovdiv Region', population=346942,
+#     description='The second-largest city in Bulgaria with a rich historical heritage', is_capital=False
+# )
+#
+# location2 = Location.objects.create(
+#     name='Varna', region='Varna Region', population=330486,
+#     description='A city known for its sea breeze and beautiful beaches on the Black Sea', is_capital=False
+# )
+
+# print(show_all_locations())
+# print(new_capital())
+# print(get_capitals())
