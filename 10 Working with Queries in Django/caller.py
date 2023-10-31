@@ -124,3 +124,26 @@ def delete_review_by_id(id):
 # print(delete_review_by_id(4))
 # print(delete_review_by_id(1))
 # print(delete_review_by_id(8))
+
+
+def filter_authors_by_nationalities(nationality):
+    filtered = Author.objects.filter(nationality=nationality).order_by('first_name', 'last_name')
+
+    result = [
+        a.biography
+        if a.biography is not None
+        else f"{a.first_name} {a.last_name}"
+        for a in filtered
+    ]
+
+    return '\n'.join(result)
+
+
+# print("American authors:")
+# print(filter_authors_by_nationalities('American'))
+# print()
+# print("British authors:")
+# print(filter_authors_by_nationalities('British'))
+# print()
+# print("Authors with no nationalities:")
+# print(filter_authors_by_nationalities(None))
