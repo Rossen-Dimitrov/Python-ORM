@@ -95,6 +95,7 @@ def find_books_by_genre_and_language(book_genre, book_language):
 # print(find_books_by_genre_and_language("Poetry", "Spanish"))
 # print(find_books_by_genre_and_language("Mystery", "English"))
 
+
 def find_authors_nationalities():
     found_authors = Author.objects.exclude(nationality=None)
 
@@ -103,3 +104,4 @@ def find_authors_nationalities():
 
 
 # print(find_authors_nationalities())
+
