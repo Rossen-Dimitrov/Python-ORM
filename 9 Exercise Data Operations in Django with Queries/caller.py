@@ -1,5 +1,6 @@
 import os
 import django
+from django.db.models import F
 
 from populate_db import populate_model_with_data
 
@@ -217,19 +218,31 @@ def delete_last_room():
 #     price_per_night=400.00,
 # )
 
-
 def update_characters():
-    all_characters = Character.objects.all()
-    for character in all_characters:
-        if character.class_name == "Mage":
-            character.level += 3
-            character.intelligence -= 7
-        elif character.class_name == "Warrior":
-            character.hit_points /= 2
-            character.dexterity += 4
-        elif character.class_name in ["Assassin", "Scout"]:
-            character.inventory = "The inventory is empty"
-        character.save()
+    Character.objects.filter(class_name='Mage').update(
+        level=F('level') + 3,
+        intelligence=F('intelligence') - 7
+    )
+
+    Character.objects.filter(class_name='Warrior').update(
+        hit_points=F('hit_points') / 2,
+        dexterity=F('dexterity') + 4,
+    )
+    Character.objects.filter(class_name__in=["Assassin", "Scout"]).update(
+        inventory="The inventory is empty"
+    )
+
+    # all_characters = Character.objects.all()
+    # for character in all_characters:
+    #     if character.class_name == "Mage":
+    #         character.level += 3
+    #         character.intelligence -= 7
+    #     elif character.class_name == "Warrior":
+    #         character.hit_points /= 2
+    #         character.dexterity += 4
+    #     elif character.class_name in ["Assassin", "Scout"]:
+    #         character.inventory = "The inventory is empty"
+    #     character.save()
 
 
 def fuse_characters(first_character: Character, second_character: Character):
@@ -247,6 +260,8 @@ def fuse_characters(first_character: Character, second_character: Character):
         hit_points=(first_character.hit_points + second_character.hit_points),
         inventory=char_inventory,
     )
+    first_character.delete()
+    second_character.delete()
 
 
 def grand_dexterity():
