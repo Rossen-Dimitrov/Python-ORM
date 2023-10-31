@@ -147,3 +147,22 @@ def filter_authors_by_nationalities(nationality):
 # print()
 # print("Authors with no nationalities:")
 # print(filter_authors_by_nationalities(None))
+
+
+def filter_authors_by_birth_year(f_year, s_year):
+    filtered_result = Author.objects.filter(
+        birth_date__year__range=(f_year, s_year)
+    ).order_by('-birth_date')
+
+    result = [f"{author.birth_date}: {str(author)}" for author in filtered_result]
+    return '\n'.join(result)
+
+
+print("Authors born between 1980 and 2000:")
+print(filter_authors_by_birth_year(1980, 2000))
+print()
+print("Authors born between 1950 and 1960:")
+print(filter_authors_by_birth_year(1950, 1960))
+print()
+print("Authors born between 2000 and 2010:")
+print(filter_authors_by_birth_year(2000, 2010))
