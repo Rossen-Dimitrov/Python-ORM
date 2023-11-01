@@ -6,7 +6,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "orm_skeleton.settings")
 django.setup()
 
 from typing import List
-from main_app.models import ArtworkGallery, Laptop, ChessPlayer
+from main_app.models import ArtworkGallery, Laptop, ChessPlayer, Meal, Dungeon
 from django.db.models import Case, When, Value, F
 
 
@@ -111,4 +111,88 @@ def grand_chess_title_FM() -> None:
 def grand_chess_title_regular_player() -> None:
     ChessPlayer.objects.filter(rating__range=(0, 2199)).update(title='regular player')
 
+
 # Task 4
+
+def set_new_chefs() -> None:
+    Meal.objects.update(
+        chef=Case(
+            When(meal_type="Breakfast", then=Value("Gordon Ramsay")),
+            When(meal_type="Lunch", then=Value("Julia Child")),
+            When(meal_type="Dinner", then=Value("Jamie Oliver")),
+            When(meal_type="Snack", then=Value("Thomas Keller")),
+            default=F('chef')
+        )
+    )
+
+
+def set_new_preparation_times() -> None:
+    Meal.objects.update(
+        preparation_time=Case(
+            When(meal_type="Breakfast", then=Value("10 minutes")),
+            When(meal_type="Lunch", then=Value("12 minutes")),
+            When(meal_type="Dinner", then=Value("15 minutes")),
+            When(meal_type="Snack", then=Value("5 minutes")),
+            default=F('preparation_time')
+        )
+    )
+
+
+def update_low_calorie_meals() -> None:
+    Meal.objects.filter(meal_type__in=["Breakfast", "Dinner"]).update(calories=400)
+
+
+def update_high_calorie_meals() -> None:
+    Meal.objects.filter(meal_type__in=["Lunch", "Snack"]).update(calories=700)
+
+
+def delete_lunch_and_snack_meals() -> None:
+    Meal.objects.filter(meal_type__in=["Lunch", "Snack"]).delete()
+
+
+# Task 5
+
+def show_hard_dungeons() -> str:
+    hardest_dungeons = Dungeon.objects.filter(difficulty="Hard").order_by('-location')
+
+    return '\n'.join(str(h) for h in hardest_dungeons)
+
+
+def bulk_create_dungeons(*args: List[Dungeon]) -> None:
+    Dungeon.objects.bulk_create(*args)
+
+
+def update_dungeon_names() -> None:
+    Dungeon.objects.update(
+        name=Case(
+            When(difficulty="Easy", then=Value("The Erased Thombs")),
+            When(difficulty="Medium", then=Value("The Coral Labyrinth")),
+            When(difficulty="Hard", then=Value("The Lost Haunt")),
+        )
+    )
+
+
+def update_dungeon_bosses_health() -> None:
+    Dungeon.objects.exclude(difficulty="Easy").update(boss_health=500)
+
+
+def update_dungeon_recommended_levels() -> None:
+    Dungeon.objects.update(
+        recommended_level=Case(
+            When(difficulty="Easy", then=Value(25)),
+            When(difficulty="Medium", then=Value(50)),
+            When(difficulty="Hard", then=Value(75)),
+        )
+    )
+
+
+def update_dungeon_rewards() -> None:
+    Dungeon.objects.filter(boss_health=500).update(reward="1000 Gold")
+    Dungeon.objects.filter(location__startswith="E").update(reward="New dungeon unlocked")
+    Dungeon.objects.filter(location__endswith="s").update(reward="Dragonheart Amulet")
+
+
+def set_new_locations() -> None:
+    Dungeon.objects.filter(recommended_level=25).update(location="Enchanted Maze")
+    Dungeon.objects.filter(recommended_level=50).update(location="Grimstone Mines")
+    Dungeon.objects.filter(recommended_level=75).update(location="Shadowed Abyss")
