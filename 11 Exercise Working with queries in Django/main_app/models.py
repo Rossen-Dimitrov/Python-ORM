@@ -1,33 +1,121 @@
 from django.db import models
 
-class Author(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    birth_date = models.DateField(null=True, blank=True)
-    nationality = models.CharField(max_length=50, null=True, blank=True)
-    biography = models.TextField(null=True, blank=True)
 
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+# Create your models here.
 
-class Book(models.Model):
-    title = models.CharField(max_length=100)
-    author = models.CharField(max_length=100)
-    publication_year = models.IntegerField()
-    genre = models.CharField(max_length=50, null=True, blank=True)
-    language = models.CharField(max_length=50, null=True, blank=True)
-    page_count = models.PositiveIntegerField(null=True, blank=True)
+class ChessPlayer(models.Model):
+    username = models.CharField(
+        max_length=100,
+        unique=True
+    )
+    title = models.CharField(
+        max_length=100,
+        default="no title"
+    )
+    rating = models.PositiveIntegerField(
+        default=1500
+    )
+    games_played = models.PositiveIntegerField(
+        default=0
+    )
+    games_won = models.PositiveIntegerField(
+        default=0
+    )
+    games_lost = models.PositiveIntegerField(
+        default=0
+    )
+    games_drawn = models.PositiveIntegerField(
+        default=0
+    )
 
-    def __str__(self):
-        return f"{self.title} by {self.author}"
 
-class Review(models.Model):
-    reviewer_name = models.CharField(max_length=100)
-    book_title = models.CharField(max_length=100)
-    author_name = models.CharField(max_length=100)
-    rating = models.PositiveIntegerField()
-    comment = models.TextField(null=True, blank=True)
-    created_on = models.DateTimeField(auto_now_add=True, editable=False)
+class Meal(models.Model):
+    MEAL_TYPE_CHOICES = (
+        ('Breakfast', 'Breakfast'),
+        ('Lunch', 'Lunch'),
+        ('Dinner', 'Dinner'),
+        ('Snack', 'Snack'),
+    )
 
-    def __str__(self):
-        return f"Review by {self.reviewer_name}"
+    name = models.CharField(
+        max_length=100
+    )
+    meal_type = models.CharField(
+        max_length=10,
+        choices=MEAL_TYPE_CHOICES
+    )
+    preparation_time = models.CharField(
+        max_length=30
+    )
+    difficulty = models.PositiveIntegerField()
+    calories = models.PositiveIntegerField()
+    chef = models.CharField(
+        max_length=100
+    )
+
+
+class Dungeon(models.Model):
+    DIFFICULTY_CHOICES = (
+        ('Easy', 'Easy'),
+        ('Medium', 'Medium'),
+        ('Hard', 'Hard'),
+    )
+
+    name = models.CharField(
+        max_length=100
+    )
+    difficulty = models.CharField(
+        max_length=10,
+        choices=DIFFICULTY_CHOICES
+    )
+    location = models.CharField(
+        max_length=100
+    )
+    boss_name = models.CharField(
+        max_length=100
+    )
+    recommended_level = models.PositiveIntegerField()
+    boss_health = models.PositiveIntegerField()
+    reward = models.TextField()
+
+
+class Workout(models.Model):
+    WORKOUT_TYPE_CHOICES = (
+        ('Cardio', 'Cardio'),
+        ('Strength', 'Strength'),
+        ('Yoga', 'Yoga'),
+        ('CrossFit', 'CrossFit'),
+        ('Calisthenics', 'Calisthenics'),
+    )
+
+    name = models.CharField(
+        max_length=200
+    )
+    workout_type = models.CharField(
+        max_length=20,
+        choices=WORKOUT_TYPE_CHOICES
+    )
+    duration = models.CharField(
+        max_length=30
+    )
+    difficulty = models.CharField(
+        max_length=50
+    )
+    calories_burned = models.PositiveIntegerField()
+    instructor = models.CharField(
+        max_length=100
+    )
+
+
+class ArtworkGallery(models.Model):
+    artist_name = models.CharField(
+        max_length=100
+    )
+    art_name = models.CharField(
+        max_length=100
+    )
+    rating = models.IntegerField()
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
