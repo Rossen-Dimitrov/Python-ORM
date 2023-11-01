@@ -5,7 +5,9 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "orm_skeleton.settings")
 django.setup()
 
-from main_app.models import ArtworkGallery
+from typing import List
+from main_app.models import ArtworkGallery, Laptop
+from django.db.models import Case, When, Value, F
 
 
 def show_highest_rated_art():
@@ -23,10 +25,51 @@ def delete_negative_rated_arts():
     ArtworkGallery.objects.filter(rating__lt=0).delete()
 
 
-artwork1 = ArtworkGallery(artist_name="Vincent van Gogh", art_name="Starry Night", rating=4, price=1200000.0)
-artwork2 = ArtworkGallery(artist_name="Leonardo da Vinci", art_name="Mona Lisa", rating=5, price=1500000.0)
+def show_the_most_expensive_laptop() -> str:
+    most_expensive = Laptop.objects.order_by("-price", "id").first()
 
-# Bulk saves the instances
-bulk_create_arts(artwork1, artwork2)
-print(show_highest_rated_art())
-print(ArtworkGallery.objects.all())
+    return f"{most_expensive.brand} is the most expensive laptop available for {most_expensive.price}$!"
+
+
+def bulk_create_laptops(*args: List[Laptop]) -> None:
+    Laptop.objects.bulk_create(*args)
+
+
+def update_to_512_GB_storage() -> None:
+    Laptop.objects.filter(
+        brand__in=["Asus", "Lenovo"]
+    ).update(storage=512)
+    # Laptop.objects.filter(
+    # Q(brand="Lenovo") | Q(brand="Asus")
+    # ).update(storage=512)
+
+
+def update_to_16_GB_memory():
+    Laptop.objects.filter(
+        brand__in=["Apple", "Dell", "Acer"]
+    ).update(memory=16)
+
+
+def update_operation_systems():
+    Laptop.objects.update(
+        operation_system=Case(
+            When(brand="Asus", then=Value("Windows")),
+            When(brand="Apple", then=Value("MacOS")),
+            When(brand__in=["Dell", "Acer"], then=Value("Linux")),
+            When(brand="Lenovo", then=Value("Chrome OS")),
+            default=F('operation_system')
+        )
+    )
+
+    # Laptop.objects.filter(brand="Asus").update(operation_system="Windows")
+    # Laptop.objects.filter(brand="Apple").update(operation_system="MacOS")
+    # Laptop.objects.filter(brand__in=["Dell", "Acer"]).update(operation_system="Linux")
+    # Laptop.objects.filter(brand="Lenovo").update(operation_system="Chrome OS")
+
+
+def delete_inexpensive_laptops() -> None:
+    Laptop.objects.filter(price__lt=1200).delete()
+
+
+
+
