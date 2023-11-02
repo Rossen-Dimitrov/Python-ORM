@@ -6,7 +6,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "orm_skeleton.settings")
 django.setup()
 
 from typing import List
-from main_app.models import ArtworkGallery, Laptop, ChessPlayer, Meal, Dungeon
+from main_app.models import ArtworkGallery, Laptop, ChessPlayer, Meal, Dungeon, Workout
 from django.db.models import Case, When, Value, F
 
 
@@ -196,3 +196,48 @@ def set_new_locations() -> None:
     Dungeon.objects.filter(recommended_level=25).update(location="Enchanted Maze")
     Dungeon.objects.filter(recommended_level=50).update(location="Grimstone Mines")
     Dungeon.objects.filter(recommended_level=75).update(location="Shadowed Abyss")
+
+
+# Task 6
+
+def show_workouts() -> str:
+    workouts = Workout.objects.filter(
+        workout_type__in=["Calisthenics", "CrossFit"]
+    )
+    return '\n'.join(str(w) for w in workouts)
+
+
+def get_high_difficulty_cardio_workouts() -> str:
+    return Workout.objects.filter(
+        workout_type="Cardio",
+        difficulty="High"
+    ).order_by('instructor')
+
+
+def set_new_instructors() -> None:
+    Workout.objects.update(
+        instructor=Case(
+            When(workout_type="Cardio", then=Value("John Smith")),
+            When(workout_type="Strength", then=Value("Michael Williams")),
+            When(workout_type="Yoga", then=Value("Emily Johnson")),
+            When(workout_type="CrossFit", then=Value("Sarah Davis")),
+            When(workout_type="Calisthenics", then=Value("Chris Heria")),
+        )
+    )
+
+
+def set_new_duration_times() -> None:
+    Workout.objects.update(
+        duration=Case(
+            When(instructor="John Smith", then=Value("15 minutes")),
+            When(instructor="Sarah Davis", then=Value("30 minutes")),
+            When(instructor="Chris Heria", then=Value("45 minutes")),
+            When(instructor="Michael Williams", then=Value("1 hour")),
+            When(instructor="Emily Johnson", then=Value("1 hour and 30 minutes")),
+        )
+    )
+
+
+def delete_workouts() -> None:
+    Workout.objects.exclude(workout_type__in=["Strength", "Calisthenics"]).delete()
+
