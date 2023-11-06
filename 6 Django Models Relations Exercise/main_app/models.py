@@ -36,6 +36,6 @@ class Artist(models.Model):
         unique=True,
     )
     songs = models.ManyToManyField(
-        to=Author,
+        to=Song,
         related_name="artists",
     )
