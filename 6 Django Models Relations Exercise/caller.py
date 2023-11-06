@@ -233,3 +233,4 @@ def register_car_by_owner(owner: object) -> str:
 # # registration2 = Registration.objects.create(registration_number='XYZ789')
 #
 # print(register_car_by_owner(owner1))
+
