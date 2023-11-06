@@ -24,7 +24,7 @@ class Subject(models.Model):
         max_length=10,
     )
     lecturer = models.ForeignKey(
-        to="Lecturer",
+        to=Lecturer,
         on_delete=models.SET_NULL,
         null=True,
         related_name='subjects',
@@ -50,7 +50,7 @@ class Student(models.Model):
         unique=True,
     )
     subjects = models.ManyToManyField(
-        to='Subject',
+        to=Subject,
         through='StudentEnrollment',
     )
 
@@ -71,11 +71,11 @@ class StudentEnrollment(models.Model):
     )
 
     student = models.ForeignKey(
-        to='Student',
+        to=Student,
         on_delete=models.CASCADE,
     )
     subject = models.ForeignKey(
-        to='Subject',
+        to=Subject,
         on_delete=models.CASCADE,
     )
     enrollment_date = models.DateField(
@@ -93,7 +93,7 @@ class StudentEnrollment(models.Model):
 
 class LecturerProfile(models.Model):
     lecturer = models.OneToOneField(
-        to="Lecturer",
+        to=Lecturer,
         on_delete=models.CASCADE,
     )
     email = models.EmailField(
