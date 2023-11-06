@@ -1,5 +1,6 @@
 import os
-from datetime import date
+from datetime import date, timedelta
+from typing import List
 
 import django
 
@@ -181,18 +182,24 @@ def calculate_licenses_expiration_dates() -> str:
     return '\n'.join([str(l) for l in license_num])
 
 
-# Create drivers
-driver1 = Driver.objects.create(first_name="Tanya", last_name="Petrova")
-driver2 = Driver.objects.create(first_name="Ivan", last_name="Yordanov")
-# Create licenses associated with drivers
-license1 = DrivingLicense.objects.create(license_number="123", issue_date=date(2022, 10, 6), driver=driver1)
-license2 = DrivingLicense.objects.create(license_number="456", issue_date=date(2022, 1, 1), driver=driver2)
+def get_drivers_with_expired_licenses(due_date: date) -> List:
+    expiration_date = due_date - timedelta(days=365)
+
+    return Driver.objects.filter(drivinglicense__issue_date__gt=expiration_date)
+
+
+# # Create drivers
+# driver1 = Driver.objects.create(first_name="Tanya", last_name="Petrova")
+# driver2 = Driver.objects.create(first_name="Ivan", last_name="Yordanov")
+# # Create licenses associated with drivers
+# license1 = DrivingLicense.objects.create(license_number="123", issue_date=date(2022, 10, 6), driver=driver1)
+# license2 = DrivingLicense.objects.create(license_number="456", issue_date=date(2022, 1, 1), driver=driver2)
 
 # Calculate licenses expiration dates
-expiration_dates = calculate_licenses_expiration_dates()
-print(expiration_dates)
-
-# Get drivers with expired licenses
+# expiration_dates = calculate_licenses_expiration_dates()
+# print(expiration_dates)
+#
+# # Get drivers with expired licenses
 # drivers_with_expired_licenses = get_drivers_with_expired_licenses(date(2023, 1, 1))
 # for driver in drivers_with_expired_licenses:
 #     print(f"{driver.first_name} {driver.last_name} has to renew their driving license!")
