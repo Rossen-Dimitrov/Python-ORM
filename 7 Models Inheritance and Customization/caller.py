@@ -6,7 +6,7 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "orm_skeleton.settings")
 django.setup()
 
-from main_app.models import Animal, Mammal, Bird, Reptile, ZooKeeper, Veterinarian
+from main_app.models import Animal, Mammal, Bird, Reptile, ZooKeeper, Veterinarian, ZooDisplayAnimal
 #
 # Animal.objects.create(
 #     name="Nemo", species="Clownfish",
@@ -50,3 +50,11 @@ from main_app.models import Animal, Mammal, Bird, Reptile, ZooKeeper, Veterinari
 #
 # veterinarian_from_db = Veterinarian.objects.first()
 # print(f"{veterinarian_from_db.first_name} {veterinarian_from_db.last_name} is a Veterinarian.")
+
+#
+# is_proxy = ZooDisplayAnimal._meta.proxy
+#
+# if is_proxy:
+#     print("ZooDisplayAnimal is a proxy model.")
+# else:
+#     print("ZooDisplayAnimal is not a proxy model.")
