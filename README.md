@@ -1,5 +1,39 @@
 # Python-ORM-2023
 
+# Helpers
+
+- [File Zipper](https://github.com/DiyanKalaydzhiev23/FileZipper/tree/main)
+
+- [Populate Django DB Script](https://github.com/DiyanKalaydzhiev23/PopulateDjangoModel)
+
+# Theory Tests
+
+---
+
+- [Django Models Basics](https://forms.gle/JwTbUtEkddw2Kc2R7)
+
+---
+
+- [Migrations and Django Admin](https://forms.gle/7G2KzMujkCzHDgPb8)
+
+---
+
+- [Data Operations with Django Queries](https://forms.gle/Pzay1RHaUuQCb1X68)
+
+---
+
+- [Working with Queries](https://forms.gle/kieTF55zwmK2eAaM7)
+
+---
+
+- [Django Relations](https://forms.gle/6uvQdwzqfxt87kD36)
+
+---
+
+- [Models Inheritance](https://forms.gle/jgC7Mk67gmaaNGvd7)
+
+---
+
 # Plans
 
 --- 
