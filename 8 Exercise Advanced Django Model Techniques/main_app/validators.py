@@ -12,7 +12,7 @@ def validate_only_letters_and_spaces(value):
 def validate_phone_number(value):
     COUNTRY_CODE = '+359'
 
-    code = value[:3]
+    code = value[:4]
     if not (code == COUNTRY_CODE and (len(value) == 13 and value[4:].isdigit())):
         raise ValidationError("Phone number must start with a '+359' followed by 9 digits")
 
