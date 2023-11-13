@@ -4,6 +4,20 @@ from django.db import models
 from main_app.validators import validate_menu_categories
 
 
+class ReviewMixin(models.Model):
+    review_content = models.TextField()
+
+    rating = models.PositiveIntegerField(
+        validators=[
+            validators.MaxValueValidator(5)
+        ]
+    )
+
+    class Meta:
+        abstract = True
+        ordering = ['-rating']
+
+
 class Restaurant(models.Model):
     name = models.CharField(
         max_length=100,
@@ -46,7 +60,7 @@ class Menu(models.Model):
     )
 
 
-class RestaurantReview(models.Model):
+class RestaurantReview(ReviewMixin):
     reviewer_name = models.CharField(
         max_length=100,
     )
@@ -54,17 +68,9 @@ class RestaurantReview(models.Model):
         to=Restaurant,
         on_delete=models.CASCADE,
     )
-    review_content = models.TextField()
 
-    rating = models.PositiveIntegerField(
-        validators=[
-            validators.MaxValueValidator(5)
-        ]
-    )
-
-    class Meta:
+    class Meta(ReviewMixin.Meta):
         abstract = True
-        ordering = ['-rating']
         verbose_name = 'Restaurant Review'
         verbose_name_plural = 'Restaurant Reviews'
         unique_together = ['reviewer_name', 'restaurant']
@@ -82,4 +88,23 @@ class FoodCriticRestaurantReview(RestaurantReview):
     class Meta(RestaurantReview.Meta):
         verbose_name = "Food Critic Review"
         verbose_name_plural = "Food Critic Reviews"
-        unique_together = ["reviewer_name", "restaurant"]
+        unique_together = ['reviewer_name', 'restaurant']
+
+
+class MenuReview(ReviewMixin):
+    reviewer_name = models.CharField(
+        max_length=100,
+    )
+    menu = models.ForeignKey(
+        to=Menu,
+        on_delete=models.CASCADE,
+    )
+
+    class Meta(ReviewMixin.Meta):
+        verbose_name = 'Menu Review'
+        verbose_name_plural = 'Menu Reviews'
+        unique_together = ["reviewer_name", "menu"]
+        indexes = [models.Index(
+            fields=['menu'],
+            name="main_app_menu_review_menu_id",
+        )]
