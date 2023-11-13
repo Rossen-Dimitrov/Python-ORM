@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from django.contrib.postgres.search import SearchVectorField
 from django.core import validators
 from django.db import models
 
@@ -176,3 +177,20 @@ class FlashHero(Hero):
             return f"{self.name} as Flash Hero runs at lightning speed, saving the day"
 
         return f"{self.name} as Flash Hero needs to recharge the speed force"
+
+
+class Document(models.Model):
+    title = models.CharField(
+        max_length=200,
+    )
+
+    content = models.TextField()
+
+    search_vector = SearchVectorField(
+        null=True,
+    )
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['search_vector'])
+        ]
