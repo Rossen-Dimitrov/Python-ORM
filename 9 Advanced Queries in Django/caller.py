@@ -8,6 +8,7 @@ django.setup()
 from django.db.models import Sum
 # Import your models
 from main_app.models import Product, Category, Customer, Order, OrderProduct
+from django.db.models import Q
 
 
 # Create and check models
@@ -119,3 +120,16 @@ def ordered_products_per_customer() -> str:
 
 
 # print(ordered_products_per_customer())
+
+
+def filter_products():
+    query = Q(is_available=True) & Q(price__gt=3)
+    products = Product.objects.filter(query).order_by('-price', 'name')
+    result = []
+    for product in products:
+        result.append(f"{product.name}: {product.price}lv.")
+
+    return '\n'.join(result)
+
+
+print(filter_products())
