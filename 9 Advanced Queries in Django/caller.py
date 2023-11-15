@@ -138,7 +138,10 @@ def filter_products():
 
 def give_discount():
     reduction = F('price') * 0.7
-    Product.objects.available_products().filter(price__gt=3).update(price=reduction) # available_products - from our custom manager
+    Product.objects.available_products().filter(
+        price__gt=3).update(
+        price=reduction
+    ) # available_products - from our custom manager
     products = Product.objects.available_products().order_by('-price', 'name')
 
     result = []
