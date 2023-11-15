@@ -8,7 +8,7 @@ django.setup()
 from django.db.models import Sum
 # Import your models
 from main_app.models import Product, Category, Customer, Order, OrderProduct
-from django.db.models import Q
+from django.db.models import Q, F
 
 
 # Create and check models
@@ -125,6 +125,8 @@ def ordered_products_per_customer() -> str:
 def filter_products():
     query = Q(is_available=True) & Q(price__gt=3)
     products = Product.objects.filter(query).order_by('-price', 'name')
+    # products = Product.objects.filter(is_available=True, price__gt=3)
+    # products = Product.objects.available_products().filter(price__gt=3) # available_products - from our custom manager
     result = []
     for product in products:
         result.append(f"{product.name}: {product.price}lv.")
@@ -132,4 +134,19 @@ def filter_products():
     return '\n'.join(result)
 
 
-print(filter_products())
+# print(filter_products())
+
+def give_discount():
+    reduction = F('price') * 0.7
+    Product.objects.available_products().filter(price__gt=3).update(price=reduction)
+    products = Product.objects.available_products().order_by('-price', 'name')
+
+    result = []
+
+    for product in products:
+        result.append(f"{product.name}: {product.price}lv.")
+
+    return '\n'.join(result)
+
+
+# print(give_discount())
