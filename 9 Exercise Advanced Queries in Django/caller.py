@@ -7,7 +7,7 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "orm_skeleton.settings")
 django.setup()
 
-from main_app.models import RealEstateListing, VideoGame
+from main_app.models import RealEstateListing, VideoGame, BillingInfo, Invoice
 
 # Create instances of RealEstateListing with locations
 # RealEstateListing.objects.create(
@@ -72,9 +72,6 @@ from main_app.models import RealEstateListing, VideoGame
 #
 # game5 = VideoGame.objects.create(title="Civilization VI", genre="Strategy", release_year=2016, rating=8.8)
 
-game6 = VideoGame.objects.create(title="Greater year", genre="Action", release_year=2025, rating=9.0)
-game7 = VideoGame.objects.create(title="Lower year", genre="Action", release_year=800, rating=-1.0)
-
 # Run the custom manager methods
 # action_games = VideoGame.objects.games_by_genre('Action')
 # recent_games = VideoGame.objects.recently_released_games(2019)
@@ -88,3 +85,31 @@ game7 = VideoGame.objects.create(title="Lower year", genre="Action", release_yea
 # print(average_rating)
 # print(highest_rated)
 # print(lowest_rated)
+
+
+# Create BillingInfo instances with real addresses
+# billing_info_1 = BillingInfo.objects.create(address="456 Oak Lane, Boston, MA 02108")
+#
+# billing_info_2 = BillingInfo.objects.create(address="789 Maple Avenue, San Francisco, CA 94101")
+#
+# billing_info_3 = BillingInfo.objects.create(address="101 Pine Street, New York, NY 10001")
+#
+# # Create Invoice instances with related BillingInfo
+# invoice_1 = Invoice.objects.create(invoice_number="INV007", billing_info=billing_info_1)
+# invoice_2 = Invoice.objects.create(invoice_number="INV002", billing_info=billing_info_2)
+# invoice_3 = Invoice.objects.create(invoice_number="INV004", billing_info=billing_info_3)
+
+# Get invoices starting with a specific prefix
+invoices_with_prefix = Invoice.get_invoices_with_prefix("INV")
+for invoice in invoices_with_prefix:
+    print(f"Invoice Number with prefix INV: {invoice.invoice_number}")
+
+# Get invoices sorted by invoice number
+invoices_sorted = Invoice.get_invoices_sorted_by_number()
+for invoice in invoices_sorted:
+    print(f"Invoice Number: {invoice.invoice_number}")
+
+# Get an invoice by a specific invoice number along with its related billing info
+invoice = Invoice.get_invoice_with_billing_info("INV002")
+print(f"Invoice Number: {invoice.invoice_number}")
+print(f"Billing Info: {invoice.billing_info.address}")
