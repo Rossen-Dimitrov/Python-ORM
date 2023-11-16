@@ -1,7 +1,5 @@
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, Integer, String, create_engine
-
-DATABASE_URL = 'postgresql+psycopg2://postgres:!QAZxsw2@127.0.0.1/mydatabase'
+from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean, ForeignKey
 
 # engine = create_engine(DATABASE_URL)
 
@@ -14,4 +12,10 @@ class User(Base):
     username = Column(String)
     email = Column(String)
 
-# Base.metadata.create_all(engine)
+
+class Order(Base):
+    __tablename__ = 'orders'
+    id = Column(Integer, primary_key=True)
+    is_completed = Column(Boolean, default=False)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship('User')
