@@ -24,6 +24,9 @@ class Person(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return self.full_name
+
 
 class Director(Person):
     years_of_experience = models.SmallIntegerField(
