@@ -39,11 +39,22 @@ def create_recipe(name: str, ingredients: str, instructions: str):
 
 @session_decorator(session)
 def update_recipe_by_name(name: str, new_name: str, new_ingredients: str, new_instructions: str):
-    recipe_to_update = session.query(Recipe).filter_by(name=name).first()
-    if recipe_to_update:
-        recipe_to_update.name = new_name
-        recipe_to_update.ingredients = new_ingredients
-        recipe_to_update.instructions = new_instructions
+    # Better solution with less querys
+
+    records_changed: int = (
+        session.query(Recipe).filter_by(name=name).update({
+            Recipe.name: new_name,
+            Recipe.ingredients: new_ingredients,
+            Recipe.instructions: new_instructions
+        })
+    )
+    return records_changed
+
+    # recipe_to_update = session.query(Recipe).filter_by(name=name).first()
+    # if recipe_to_update:
+    #     recipe_to_update.name = new_name
+    #     recipe_to_update.ingredients = new_ingredients
+    #     recipe_to_update.instructions = new_instructions
 
 
 # Update a recipe by name
@@ -54,11 +65,21 @@ update_recipe_by_name(
     new_instructions="Cook the pasta, mix with eggs, guanciale, and cheese"
 )
 
-# Query the updated recipe
-updated_recipe = session.query(Recipe).filter_by(name="Carbonara Pasta").first()
 
-# Print the updated recipe details
-print("Updated Recipe Details:")
-print(f"Name: {updated_recipe.name}")
-print(f"Ingredients: {updated_recipe.ingredients}")
-print(f"Instructions: {updated_recipe.instructions}")
+# Query the updated recipe
+# updated_recipe = session.query(Recipe).filter_by(name="Carbonara Pasta").first()
+#
+# # Print the updated recipe details
+# print("Updated Recipe Details:")
+# print(f"Name: {updated_recipe.name}")
+# print(f"Ingredients: {updated_recipe.ingredients}")
+# print(f"Instructions: {updated_recipe.instructions}")
+
+def delete_recipe_by_name(name: str):
+    recipe_to_delete: int = (
+        session.query(Recipe)
+        .filter_by(name=name)
+        .delete()
+    )
+
+    return recipe_to_delete
