@@ -28,3 +28,4 @@ class MovieAdmin(admin.ModelAdmin):
     search_fields = ['title', 'director__full_name']
     readonly_fields = ['last_updated']
     search_help_text = f'search in: {", ".join(search_fields)}'
+

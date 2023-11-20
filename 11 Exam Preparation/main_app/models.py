@@ -1,6 +1,8 @@
 from django.core import validators
 from django.db import models
 
+from main_app.custom_model_manager import DirectorManager
+
 
 # Create your models here.
 
@@ -35,7 +37,7 @@ class Director(Person):
             validators.MinValueValidator(0),
         ]
     )
-
+    objects = DirectorManager()
 
 class Actor(Person):
     is_awarded = models.BooleanField(
