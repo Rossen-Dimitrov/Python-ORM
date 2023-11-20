@@ -81,5 +81,16 @@ def delete_recipe_by_name(name: str):
         .filter_by(name=name)
         .delete()
     )
-
+    session.commit()
     return recipe_to_delete
+
+
+# Delete a recipe by name
+delete_recipe_by_name("Carbonara Pasta")
+
+# Query all recipes
+recipes = session.query(Recipe).all()
+
+# Loop through each recipe and print its details
+for recipe in recipes:
+    print(f"Recipe name: {recipe.name}")
