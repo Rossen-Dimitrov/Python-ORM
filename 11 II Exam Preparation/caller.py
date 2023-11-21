@@ -77,11 +77,25 @@ def apply_discounts():
     return f"Discount applied to {updated_count} orders."
 
 
-def complete_order():
-    oldest_order = Order.objects.prefetch_related('products').first()
-    products = oldest_order.products.values_list('name', flat=True)
+def complete_order() -> str:
+    oldest_order = Order.objects.prefetch_related('products').filter(
+        is_completed=False
+    ).order_by(
+        'creation_date'
+    ).first()
 
-    for p in products:
-        print(p)
+    if not oldest_order:
+        return ""
 
-complete_order()
+    for product in oldest_order.products.all():
+        product.in_stock -= 1
+        if product.in_stock == 0:
+            product.is_available = False
+
+        product.save()
+
+    oldest_order.is_completed = True
+    oldest_order.save()
+
+    return "Order has been completed!"
+
