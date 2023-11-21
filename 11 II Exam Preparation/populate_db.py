@@ -7,6 +7,7 @@ from django.db.models.fields.related import ForeignKey, OneToOneField, ManyToMan
 
 from datetime import datetime, timedelta
 
+
 def populate_model_with_data(model, num_records=10):
     model_fields = model._meta.fields
     model_relationships = model._meta.related_objects
@@ -25,7 +26,7 @@ def populate_model_with_data(model, num_records=10):
             elif isinstance(field, BooleanField):
                 field_values[field.name] = random.choice([True, False])
             elif isinstance(field, CharField):
-                field_values[field.name] = f"{model.__name__} {_+1}"
+                field_values[field.name] = f"{model.__name__} {_ + 1}"
             elif isinstance(field, TextField):
                 field_values[field.name] = f"A {model.__name__.lower()}"
             elif isinstance(field, EmailField):
@@ -60,3 +61,5 @@ def populate_model_with_data(model, num_records=10):
                 related_instances = related_model.objects.order_by('?')[:random.randint(1, 5)]
                 setattr(instance, field.name, related_instances)
                 instance.save()
+
+    print(f"Added {num_records} records")

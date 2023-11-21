@@ -1,6 +1,8 @@
 from django.core import validators
 from django.db import models
 
+from main_app.custum_managers import ProfileManger
+
 
 class CreationDate(models.Model):
     class Meta:
@@ -28,6 +30,7 @@ class Profile(CreationDate):
     is_active = models.BooleanField(
         default=True,
     )
+    objects = ProfileManger()
 
 
 class Product(CreationDate):
