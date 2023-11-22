@@ -14,7 +14,9 @@ class Author(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=100)
-    author = models.CharField(max_length=100)
+    author = models.ManyToManyField(
+        Author,
+        related_name='books')
     publication_year = models.IntegerField()
     genre = models.CharField(max_length=50, null=True, blank=True)
     language = models.CharField(max_length=50, null=True, blank=True)
@@ -27,7 +29,10 @@ class Book(models.Model):
 class Review(models.Model):
     reviewer_name = models.CharField(max_length=100)
     book_title = models.CharField(max_length=100)
-    author_name = models.CharField(max_length=100)
+    author = models.ForeignKey(
+        to=Author,
+        on_delete=models.CASCADE,
+        related_name='reviews')
     rating = models.PositiveIntegerField()
     comment = models.TextField(null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True, editable=False)

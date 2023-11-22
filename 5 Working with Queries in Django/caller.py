@@ -7,6 +7,8 @@ django.setup()
 
 # Import your models
 from main_app.models import Author, Book, Review
+from populate_db import populate_model_with_data
+
 
 
 # Create and check models
@@ -176,11 +178,23 @@ def change_reviewer_name(reviewer_name, new_name):
     return result
 
 
-print("Change Alice Johnson to A.J.:")
-print(change_reviewer_name("Alice Johnson", "A.J."))
-print()
-print("Change Bob Wilson to Bobby W.:")
-print(change_reviewer_name("Bob Wilson", "Bobby W."))
-print()
-print("Change A.J. to A. Johnson:")
-print(change_reviewer_name("A.J.", "A. Johnson"))
+# print("Change Alice Johnson to A.J.:")
+# print(change_reviewer_name("Alice Johnson", "A.J."))
+# print()
+# print("Change Bob Wilson to Bobby W.:")
+# print(change_reviewer_name("Bob Wilson", "Bobby W."))
+# print()
+# print("Change A.J. to A. Johnson:")
+# print(change_reviewer_name("A.J.", "A. Johnson"))
+
+book = Book.objects.get(id=12)
+print(book.author.first())
+
+post = Post.objects.first()
+print(post.author.first_name)
+
+post = Post.objects.first().author.first_name
+print(post)
+
+
+

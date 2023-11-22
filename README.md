@@ -1,4 +1,4 @@
-# Python-ORM-2023
+Demej# Python-ORM-2023
 
 
 # Plans
@@ -349,13 +349,18 @@ Django Models Relations
    class Post(models.Model):
        title = models.CharField(max_length=200)
        content = models.TextField()
-       author = models.ForeignKey(Author, on_delete=models.CASCADE)
+       author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='posts',)
    ```
 
-- Access all posts written by an author
+- Access all posts written by an author without related_name,
 ```py
 author = Author.objects.get(id=1)
 author_posts = author.post_set.all()
+```
+ Access all posts written by an author with related_name,
+```py
+author = Author.objects.get(id=1)
+author_posts = author.posts.all()
 ```
 
 3. Types of relationships
@@ -377,7 +382,21 @@ author_posts = author.post_set.all()
           book = models.ForeignKey(Book, on_delete=models.CASCADE)
           publication_date = models.DateField()
       ```
+```
+examples:
 
+book = Book.objects.get(id=12)
+print(book.author.first())
+
+post = Post.objects.first()
+print(post.author.first_name)
+
+post = Post.objects.first().author.first_name
+print(post)
+
+author = Author.objects.first()
+print(', '.join(t.title for t in author.books.all()))
+```
    - OneToOne, предимно се слага на PK
    - Self-referential Foreign Key
       - Пример имаме работници и те могат да са мениджъри на други работници
