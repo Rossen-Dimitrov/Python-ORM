@@ -589,6 +589,7 @@ print(', '.join(t.title for t in author.books.all()))
 	class ChildModel(BaseModel):
 	    description = models.TextField()
 	    # ChildModel inherits the Meta options
+        # class Meta(BaseModel.Meta) if we want to extend parent Meta
 	```
 
 3. Indexing
