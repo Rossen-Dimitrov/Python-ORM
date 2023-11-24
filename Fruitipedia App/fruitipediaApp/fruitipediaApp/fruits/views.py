@@ -79,11 +79,11 @@ def delete_details(request, fruit_pk):
     if request.method == "POST":
         form = FruitCreateForm(request.POST, instance=fruit)
         if form.is_valid():
-            form.save()
+            fruit.delete()
             return redirect('dashboard page')
 
     context = {
         'form': form,
-        'fruit': fruit
+
     }
-    return render(request, 'fruits/delete-fruit.html')
+    return render(request, 'fruits/delete-fruit.html', context)
